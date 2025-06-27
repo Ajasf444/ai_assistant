@@ -2,17 +2,17 @@ import os
 
 
 def get_files_info(working_directory, directory=None):
+    abs_working_dir = os.path.abspath(working_directory)
+    abs_target_path = abs_working_dir
+    if directory:
+        rel_path = os.path.join(working_directory, directory)
+        abs_target_path = os.path.abspath(rel_path)
+    if not abs_target_path.startswith(abs_working_dir):
+        print(abs_target_path)
+        return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
+    if not os.path.isdir(abs_target_path):
+        return f'Error: "{directory}" is not a directory'
     try:
-        abs_working_dir = os.path.abspath(working_directory)
-        abs_target_path = abs_working_dir
-        if directory:
-            rel_path = os.path.join(working_directory, directory)
-            abs_target_path = os.path.abspath(rel_path)
-        if not abs_target_path.startswith(abs_working_dir):
-            print(abs_target_path)
-            return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
-        if not os.path.isdir(abs_target_path):
-            return f'Error: "{directory}" is not a directory'
         return _get_formatted_info(abs_target_path)
     except Exception as e:
         return f"Error: {e}"
