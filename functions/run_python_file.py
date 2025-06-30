@@ -1,9 +1,9 @@
 import os
 import subprocess
+
 from google.genai import types
 
-# TODO: move PROCESS_TIMEOUT to config
-PROCESS_TIMEOUT = 30  # in seconds
+from config import PROCESS_TIMEOUT
 
 schema_run_python_file = types.FunctionDeclaration(
     name="run_python_file",
@@ -24,7 +24,8 @@ def run_python_file(working_directory, file_path, args=None):
     abs_working_directory = os.path.abspath(working_directory)
     target_path = abs_working_directory
     if file_path:
-        target_path = os.path.abspath(os.path.join(working_directory, file_path))
+        target_path = os.path.abspath(
+            os.path.join(working_directory, file_path))
     else:
         return f"Error: No path to Python file provided."
     if not target_path.startswith(abs_working_directory):

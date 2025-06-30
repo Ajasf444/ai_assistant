@@ -1,8 +1,9 @@
 import os
+
 from google.genai import types
 
-# TODO: move MAX_CHARS to config
-MAX_CHARS = 10_000
+from config import MAX_CHARS
+
 schema_get_file_content = types.FunctionDeclaration(
     name="get_file_content",
     description="Reads the content of a specified file up to 10_000 characters, constrained to the working directory.",
