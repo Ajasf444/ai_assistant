@@ -4,10 +4,10 @@ import sys
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from prompts import system_prompt
 
-from functions.call_function import available_functions, call_function
 from config import MAX_CONVERSATION_ITERATIONS
+from functions.call_function import available_functions, call_function
+from prompts import system_prompt
 
 
 def main():
@@ -29,7 +29,8 @@ def main():
     while True:
         iterations += 1
         if iterations > MAX_CONVERSATION_ITERATIONS:
-            print(f"Maximum iterations ({MAX_CONVERSATION_ITERATIONS}) reached.")
+            print(f"Maximum iterations ({
+                  MAX_CONVERSATION_ITERATIONS}) reached.")
             sys.exit(1)
         try:
             final_response = generate_content(client, messages, verbose)
@@ -51,7 +52,8 @@ def generate_content(client, messages, verbose):
     )
     if verbose:
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
-        print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+        print(f"Response tokens: {
+              response.usage_metadata.candidates_token_count}")
     if not response.function_calls:
         return response.text
     if response.candidates:
@@ -67,7 +69,8 @@ def generate_content(client, messages, verbose):
         ):
             raise Exception("Empty function call result.")
         if verbose:
-            print(f"-> {function_call_result.parts[0].function_response.response}")
+            print(
+                f"-> {function_call_result.parts[0].function_response.response}")
         function_responses.append(function_call_result.parts[0])
 
     if not function_responses:
